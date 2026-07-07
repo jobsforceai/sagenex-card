@@ -84,6 +84,50 @@ export const HIGHLIGHTS = [
   },
 ] as const;
 
+export const CARD_TYPES_HEADER = {
+  eyebrow: "Card options",
+  title: "Virtual or physical — pick what fits",
+  subtitle:
+    "Both cards share the same security and spending power. Choose instant digital access or a card you can tap in stores.",
+  minBalanceNote: "$100 minimum card balance required for both",
+} as const;
+
+export const CARD_TYPES = [
+  {
+    id: "virtual",
+    name: "Virtual Card",
+    tagline: "Instant access, zero wait",
+    feeLabel: "$50",
+    feeNote: "one-time issuance fee",
+    minBalance: 100,
+    image: "/card-virtual-product.png",
+    imageAlt: "Sagenex virtual card in the mobile app",
+    features: [
+      "Ready in minutes after KYC approval",
+      "Add to Apple Pay and Google Pay",
+      "Spend online and in-app worldwide",
+      "Same secure element protection as physical",
+    ],
+  },
+  {
+    id: "physical",
+    name: "Physical Card",
+    tagline: "Tap, sign, and spend in person",
+    feeLabel: "$100",
+    feeNote: "one-time issuance fee",
+    minBalance: 100,
+    image: "/card-physical-product.png",
+    imageAlt: "Sagenex physical Global Pay card",
+    features: [
+      "Visa card with NFC tap-to-sign",
+      "Spend anywhere Visa is accepted",
+      "Hardware wallet keys sealed on-chip",
+      "Ships to your door after verification",
+    ],
+    featured: true,
+  },
+] as const;
+
 export const BACKUP_HEADER = {
   label: "Get started",
   title: "Your card in three steps.",
