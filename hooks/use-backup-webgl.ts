@@ -77,19 +77,17 @@ export function useBackupWebgl(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeStep, setActiveStep] = useState(0);
   const [ready, setReady] = useState(false);
-  const trackRefStable = useRef(trackRef);
-  const containerRefStable = useRef(containerRef);
-  trackRefStable.current = trackRef;
-  containerRefStable.current = containerRef;
 
   const scrollToStep = (step: number) => {
-    const track = trackRefStable.current.current;
-    const container = containerRefStable.current.current;
+    const track = trackRef.current;
+    const container = containerRef.current;
     if (!track) return;
-    const progress = step === 0 ? 0.05 : step === 1 ? 0.5 : 0.92;
-    const containerH = container?.offsetHeight ?? window.innerHeight;
-    const scrollable = track.offsetHeight - containerH;
-    const top = track.offsetTop + progress * scrollable;
+    const clamped = Math.max(0, Math.min(BACKUP_STEPS.length - 1, step));
+    const progress = clamped === 0 ? 0.05 : clamped === 1 ? 0.5 : 0.92;
+    const trackRect = track.getBoundingClientRect();
+    const containerH = container?.getBoundingClientRect().height ?? window.innerHeight;
+    const scrollable = Math.max(0, trackRect.height - containerH);
+    const top = trackRect.top + window.scrollY + progress * scrollable;
     window.scrollTo({ top, behavior: "smooth" });
   };
 

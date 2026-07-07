@@ -34,7 +34,10 @@ export function useHeroCardScene(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
   const onRevealRef = useRef(onReveal);
-  onRevealRef.current = onReveal;
+
+  useEffect(() => {
+    onRevealRef.current = onReveal;
+  }, [onReveal]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -196,8 +199,9 @@ export function useHeroCardScene(
     if (!section) return;
     const clamped = Math.max(0, Math.min(REVEAL_THRESHOLDS.length - 1, index));
     const progress = REVEAL_THRESHOLDS[clamped] + 0.02;
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const top = section.offsetTop + progress * scrollable;
+    const rect = section.getBoundingClientRect();
+    const scrollable = Math.max(0, rect.height - window.innerHeight);
+    const top = rect.top + window.scrollY + progress * scrollable;
     window.scrollTo({ top, behavior: "smooth" });
   };
 

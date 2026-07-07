@@ -97,11 +97,11 @@ export function SiteHeader() {
           menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setMenuOpen(false)}
-        aria-hidden={!menuOpen}
+        aria-hidden="true"
       />
       <nav
         className={`fixed right-0 top-16 z-50 flex h-[calc(100dvh-4rem)] w-[min(320px,88vw)] flex-col gap-1 border-l border-[var(--border)] bg-white p-6 shadow-2xl transition-transform duration-300 ease-out lg:hidden ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
+          menuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
         }`}
         aria-hidden={!menuOpen}
       >
@@ -111,6 +111,7 @@ export function SiteHeader() {
             href={`#${item.toLowerCase()}`}
             className="rounded-xl px-4 py-3.5 text-[17px] font-medium text-[var(--fg)] active:bg-[var(--gray-100)]"
             onClick={() => setMenuOpen(false)}
+            tabIndex={menuOpen ? undefined : -1}
           >
             {item}
           </a>
@@ -119,6 +120,7 @@ export function SiteHeader() {
           {...APPLY_LINK_PROPS}
           className="mt-4 inline-flex cursor-pointer items-center justify-center rounded-[14px] border-0 px-6 py-3.5 text-[16px] font-medium text-white no-underline [background:linear-gradient(90deg,rgba(255,120,140,0)_0%,rgba(255,120,140,0.65)_100%),var(--brand)]"
           onClick={() => setMenuOpen(false)}
+          tabIndex={menuOpen ? undefined : -1}
         >
           {APPLY_LABEL}
         </a>

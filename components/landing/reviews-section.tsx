@@ -59,11 +59,7 @@ export function ReviewsSection() {
 
   const pageCount = Math.max(1, Math.ceil(reviews.length / perView));
   const maxPage = pageCount - 1;
-
-  // Clamp the current page whenever the number of visible cards changes.
-  useEffect(() => {
-    setPage((p) => Math.min(p, maxPage));
-  }, [maxPage]);
+  const currentPage = Math.min(page, maxPage);
 
   const goTo = (next: number) => {
     setPage(Math.max(0, Math.min(maxPage, next)));
@@ -78,7 +74,7 @@ export function ReviewsSection() {
     const delta = touchStartX.current - (e.changedTouches[0]?.clientX ?? touchStartX.current);
     touchStartX.current = null;
     if (Math.abs(delta) < SWIPE_THRESHOLD) return;
-    goTo(delta > 0 ? page + 1 : page - 1);
+    goTo(delta > 0 ? currentPage + 1 : currentPage - 1);
   };
 
   const showControls = pageCount > 1;
@@ -117,7 +113,7 @@ export function ReviewsSection() {
         >
           <div
             className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${page * 100}%)` }}
+            style={{ transform: `translateX(-${currentPage * 100}%)` }}
           >
             {reviews.map((r) => (
               <div
@@ -139,8 +135,8 @@ export function ReviewsSection() {
           <div className="mt-6 flex items-center justify-center gap-2 sm:mt-8 sm:gap-4">
             <button
               type="button"
-              onClick={() => goTo(page - 1)}
-              disabled={page === 0}
+              onClick={() => goTo(currentPage - 1)}
+              disabled={currentPage === 0}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gray-200)] disabled:opacity-40"
               aria-label="Previous reviews"
             >
@@ -154,11 +150,11 @@ export function ReviewsSection() {
                   onClick={() => goTo(i)}
                   className="flex h-11 w-11 items-center justify-center"
                   aria-label={`Go to review page ${i + 1}`}
-                  aria-current={i === page ? "true" : undefined}
+                  aria-current={i === currentPage ? "true" : undefined}
                 >
                   <span
                     className={`block rounded-full transition-all ${
-                      i === page ? "h-2.5 w-7 bg-[var(--brand)]" : "h-2.5 w-2.5 bg-[var(--gray-200)]"
+                      i === currentPage ? "h-2.5 w-7 bg-[var(--brand)]" : "h-2.5 w-2.5 bg-[var(--gray-200)]"
                     }`}
                   />
                 </button>
@@ -166,8 +162,8 @@ export function ReviewsSection() {
             </div>
             <button
               type="button"
-              onClick={() => goTo(page + 1)}
-              disabled={page === maxPage}
+              onClick={() => goTo(currentPage + 1)}
+              disabled={currentPage === maxPage}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gray-200)] disabled:opacity-40"
               aria-label="Next reviews"
             >
