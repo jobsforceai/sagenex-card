@@ -1,0 +1,19 @@
+pnpm-lock.yaml
+  s_75382120e53bfd::t_24fed9367fe04d 11-13,17-22,35-40,54-56,143-145,196-201,569-571,595-603,1186-1188,1286-1288,1507-1520,1629-1631,1963-1966,1974-1976,2193-2194,2262-2266,2525-2526,2550-2562,3302-3303,3406-3407,3621-3624,3705-3706,4114-4115,4120-4121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "beaf125ccc84cdecb748a4166937ecf6cc431317",
+  "prompts": {},
+  "sessions": {
+    "s_75382120e53bfd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3d8e-abe1-7a73-8e8f-12085b9b26c7",
+        "model": "gpt-5.5"
+      },
+      "human_author": "jobsforceai <jobsforceai@gmail.com>"
+    }
+  }
+}
