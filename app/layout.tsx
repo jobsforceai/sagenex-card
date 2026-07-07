@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,10 +8,22 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   title: "Sagenex Card — The Secure Hardware & Crypto Wallet",
   description:
-    "Manage cryptocurrencies securely in the best crypto wallet. Sagenex is a simple cold Bitcoin wallet.",
+    "The Sagenex Global Pay Card — an EAL6+ hardware wallet and Visa card in one. Tap to sign, spend anywhere.",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
 };
 
 export default function RootLayout({
@@ -20,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="min-h-full">{children}</body>
+    <html lang="en" className={`${inter.variable} ${bricolage.variable} h-full`}>
+      <body className="min-h-full font-sans">{children}</body>
     </html>
   );
 }

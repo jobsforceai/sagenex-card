@@ -3,8 +3,8 @@ import { ASSETS } from "@/lib/assets";
 
 export function WarrantySection() {
   return (
-    <section className="border-t border-[var(--border)] bg-[var(--surface)] py-24 text-[var(--fg)]">
-      <div className="mx-auto grid w-full max-w-[1920px] items-center gap-12 px-[max(24px,calc((100vw-1440px)/2))] lg:grid-cols-2">
+    <section className="border-t border-[var(--border)] bg-[var(--surface)] py-16 text-[var(--fg)] sm:py-24">
+      <div className="mx-auto grid w-full max-w-[1920px] items-center gap-12 px-4 sm:px-[max(24px,calc((100vw-1440px)/2))] lg:grid-cols-2">
         <div>
           <h2 className="whitespace-pre-line text-[clamp(36px,4.5vw,64px)] font-medium leading-[1.05] tracking-[-0.03em] text-black">
             {"25-year limited\nhardware warranty"}

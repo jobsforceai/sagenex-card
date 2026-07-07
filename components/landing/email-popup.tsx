@@ -14,7 +14,7 @@ export function EmailPopup() {
   if (!open) return null;
 
   return (
-    <div className="fixed bottom-6 left-6 z-[90] w-[min(340px,calc(100vw-48px))] rounded-2xl border border-[var(--border)] bg-white p-5 shadow-xl">
+    <div className="fixed bottom-[max(5.5rem,env(safe-area-inset-bottom))] left-4 z-[90] w-[min(340px,calc(100vw-2rem))] rounded-2xl border border-[var(--border)] bg-white p-5 shadow-xl sm:bottom-6 sm:left-6">
       <button
         type="button"
         onClick={() => setOpen(false)}

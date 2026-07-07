@@ -34,7 +34,10 @@ export function useHeroCardScene(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
   const onRevealRef = useRef(onReveal);
-  onRevealRef.current = onReveal;
+
+  useEffect(() => {
+    onRevealRef.current = onReveal;
+  }, [onReveal]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -71,6 +74,7 @@ export function useHeroCardScene(
 
     const pointer = { x: 0, y: 0 };
     const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
       const rect = canvas.getBoundingClientRect();
       pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -115,7 +119,7 @@ export function useHeroCardScene(
       const now = performance.now();
       const t = now * 0.001;
 
-      smoothProgress += (readProgress() - smoothProgress) * 0.09;
+      smoothProgress += (readProgress() - smoothProgress) * 0.055;
 
       if (card) {
         const aspect = camera.aspect;
@@ -190,5 +194,16 @@ export function useHeroCardScene(
     };
   }, [sectionRef]);
 
-  return { canvasRef, ready };
+  const scrollToFeature = (index: number) => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const clamped = Math.max(0, Math.min(REVEAL_THRESHOLDS.length - 1, index));
+    const progress = REVEAL_THRESHOLDS[clamped] + 0.02;
+    const rect = section.getBoundingClientRect();
+    const scrollable = Math.max(0, rect.height - window.innerHeight);
+    const top = rect.top + window.scrollY + progress * scrollable;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  return { canvasRef, ready, scrollToFeature };
 }

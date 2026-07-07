@@ -85,10 +85,10 @@ export function PhoneScreenOverlay({ activeStep }: { activeStep: number }) {
 
   return (
     <div
-      className="pointer-events-none absolute top-1/2 left-1/2 z-[2] w-[200px] -translate-x-1/2 -translate-y-1/2 md:w-[240px] min-[1280px]:w-[260px]"
+      className="pointer-events-none absolute top-1/2 left-1/2 z-[2] h-[86%] max-h-[420px] aspect-[9/19] -translate-x-1/2 -translate-y-1/2"
       aria-hidden
     >
-      <div className="relative flex aspect-[9/19] flex-col overflow-hidden rounded-[28px] border-[3px] border-[var(--border)] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.1)]">
+      <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[28px] border-[3px] border-[var(--border)] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.1)]">
         {/* iPhone notch */}
         <div className="absolute left-1/2 top-0 z-10 h-[18px] w-[42%] -translate-x-1/2 rounded-b-[12px] bg-black">
           <span className="absolute left-1/2 top-1/2 h-[3px] w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1f1f1f]" />

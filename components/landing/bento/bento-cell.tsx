@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
@@ -31,6 +32,7 @@ export function BentoCell({
   priority?: boolean;
 }) {
   const isHero = item.size === "hero";
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <motion.article
@@ -43,18 +45,16 @@ export function BentoCell({
         src={image}
         alt={item.title}
         fill
-        className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.05]"
+        className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] [@media(hover:hover)]:group-hover:scale-[1.05]"
         sizes={isHero ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 1024px) 100vw, 30vw"}
         priority={priority}
       />
 
-      {/* top scrim keeps copy legible over bright imagery */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[62%] bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0)_100%)]"
         aria-hidden
       />
 
-      {/* top-left copy */}
       <div className={`absolute left-0 top-0 z-10 ${isHero ? "p-6 xl:p-7" : "p-5"}`}>
         <h3
           className={`m-0 font-medium tracking-[-0.02em] text-[var(--fg)] ${
@@ -74,18 +74,27 @@ export function BentoCell({
         </p>
       </div>
 
-      {/* expand-on-hover detail panel */}
-      <div className="absolute inset-x-0 bottom-0 z-10 translate-y-full bg-[rgba(255,255,255,0.86)] p-6 pr-16 backdrop-blur-[14px] transition-transform duration-[450ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:translate-y-0">
+      {/* Detail panel — tap on mobile, hover on desktop */}
+      <div
+        className={`absolute inset-x-0 bottom-0 z-10 bg-[rgba(255,255,255,0.92)] p-6 pr-16 backdrop-blur-[14px] transition-transform duration-[450ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+          expanded ? "translate-y-0" : "translate-y-full [@media(hover:hover)]:group-hover:translate-y-0"
+        }`}
+      >
         <p className="m-0 text-[0.8125rem] leading-[1.55] text-[var(--fg-secondary)]">
           {item.detail}
         </p>
       </div>
 
-      {/* + affordance */}
       <button
         type="button"
-        aria-label={`More about ${item.title}`}
-        className="absolute bottom-4 right-4 z-20 grid h-10 w-10 place-items-center rounded-full border border-black/[0.06] bg-white/90 text-[var(--fg)] shadow-[0_2px_8px_rgba(0,0,0,0.10)] backdrop-blur-sm transition-[transform,background-color,color] duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:rotate-45 group-hover:bg-[var(--brand)] group-hover:text-white"
+        aria-label={expanded ? `Close ${item.title} details` : `More about ${item.title}`}
+        aria-expanded={expanded}
+        onClick={() => setExpanded((v) => !v)}
+        className={`absolute bottom-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full border border-black/[0.06] bg-white/90 text-[var(--fg)] shadow-[0_2px_8px_rgba(0,0,0,0.10)] backdrop-blur-sm transition-[transform,background-color,color] duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] active:scale-95 ${
+          expanded
+            ? "rotate-45 bg-[var(--brand)] text-white"
+            : "[@media(hover:hover)]:group-hover:rotate-45 [@media(hover:hover)]:group-hover:bg-[var(--brand)] [@media(hover:hover)]:group-hover:text-white"
+        }`}
       >
         <Plus className="h-5 w-5" strokeWidth={2.25} />
       </button>

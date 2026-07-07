@@ -26,7 +26,8 @@
 @theme inline {
   --color-brand: var(--brand);
   --color-accent: var(--accent);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -54,6 +55,13 @@ body {
   -webkit-font-smoothing: antialiased;
   /* clip (not hidden) so it doesn't become a scroll container and break position: sticky */
   overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-bricolage), var(--font-inter), sans-serif;
+  letter-spacing: -0.02em;
 }
 
 @keyframes backup-spin {
