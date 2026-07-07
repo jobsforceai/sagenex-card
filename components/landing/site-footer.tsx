@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function SiteFooter() {
   const cols = [
     {
@@ -23,7 +25,16 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-[1920px] px-[max(24px,calc((100vw-1440px)/2))]">
         <div className="mb-12 flex flex-col justify-between gap-8 md:flex-row">
           <div>
-            <p className="text-2xl font-medium text-[var(--fg)]">sagenex</p>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/logo5.png"
+                alt="Sagenex"
+                width={28}
+                height={28}
+                className="h-7 w-7 object-contain"
+              />
+              <p className="text-2xl font-medium text-[var(--fg)]">sagenex</p>
+            </div>
             <p className="mt-3 max-w-xs text-sm">
               Your secure crypto hardware wallet. Store, buy, earn, send, swap,
               and spend.

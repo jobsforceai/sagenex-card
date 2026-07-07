@@ -6,8 +6,8 @@ import { ASSETS } from "@/lib/assets";
 
 export function ChipSection() {
   return (
-    <section id="security" className="border-t border-[var(--border)] bg-[var(--surface)] py-24 text-[var(--fg)]">
-      <div className="mx-auto w-full max-w-[1920px] px-[max(24px,calc((100vw-1440px)/2))]">
+    <section id="security" className="border-t border-[var(--border)] bg-[var(--surface)] py-16 text-[var(--fg)] sm:py-24">
+      <div className="mx-auto w-full max-w-[1920px] px-4 sm:px-[max(24px,calc((100vw-1440px)/2))]">
         <p className="mb-4 text-sm uppercase tracking-widest text-[var(--fg-tertiary)]">
           Security &amp; Reliability
         </p>

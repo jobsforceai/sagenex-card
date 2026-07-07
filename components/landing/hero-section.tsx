@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, KeyRound, Layers, ShieldCheck } from "lucide-react";
 import { useHeroCardScene } from "@/hooks/use-hero-card-scene";
+import { APPLY_LABEL, APPLY_LINK_PROPS } from "@/lib/links";
 
 const TRUST_CHIPS = [
   { icon: KeyRound, label: "Non-custodial & seedless" },
   { icon: Layers, label: "14,100+ assets · 90+ networks" },
-  { icon: ShieldCheck, label: "25-year hardware warranty" },
+  { icon: ShieldCheck, label: "Rugged, sealed build" },
 ] as const;
 
 const FEATURES = [
@@ -22,8 +23,8 @@ const FEATURES = [
     angle: -20,
   },
   {
-    title: "Built to last 25 years",
-    desc: "A solid metal build with no moving parts, rated to survive water, heat, and cold for decades.",
+    title: "Built to last",
+    desc: "A rugged, sealed build with no moving parts, rated to survive water, heat, and cold for years.",
     angle: 20,
   },
   {
@@ -76,7 +77,7 @@ export function HeroSection() {
   const layerRef = useRef<HTMLDivElement>(null);
   const [reveal, setReveal] = useState(0);
   const [dim, setDim] = useState({ w: 0, h: 0 });
-  const { canvasRef, ready } = useHeroCardScene(sectionRef, setReveal);
+  const { canvasRef, ready, scrollToFeature } = useHeroCardScene(sectionRef, setReveal);
   const inFeatures = reveal > 0;
 
   useEffect(() => {
@@ -118,32 +119,33 @@ export function HeroSection() {
 
         {/* Headline — scrolls up and away as the feature phase begins */}
         <div
-          className={`relative z-[3] mx-auto max-w-[760px] px-6 pt-14 text-center transition-all duration-700 md:pt-16 ${
+          className={`relative z-[3] mx-auto max-w-[900px] shrink-0 px-6 pt-10 text-center transition-all duration-1000 md:pt-14 ${
             inFeatures ? "-translate-y-8 opacity-0" : "translate-y-0 opacity-100"
           }`}
         >
-          <h1 className="mb-4 text-[34px] font-medium leading-[108%] tracking-[-0.432px] text-[var(--fg)] min-[976px]:mb-5 min-[976px]:text-[58px] min-[976px]:leading-[100%] min-[976px]:tracking-[-2.2px]">
-            Cold storage you can spend anywhere
+          <h1 className="mb-4 font-display text-[30px] font-bold leading-[106%] tracking-[-0.03em] text-[var(--fg)] min-[976px]:mb-5 min-[976px]:text-[52px] min-[976px]:leading-[102%] min-[976px]:tracking-[-0.04em]">
+            Secure by heritage.
+            <br />
+            Spend worldwide.
           </h1>
-          <p className="mx-auto max-w-[580px] text-[17px] leading-[1.45] text-[var(--gray-400)] min-[976px]:text-[19px]">
-            The Sagenex Global Pay Card locks your private keys inside an EAL6+
-            secure element — then lets you tap to pay worldwide. No seed phrase,
-            no batteries, no exchange.
+          <p className="mx-auto max-w-[520px] text-[15px] leading-[1.45] text-[var(--gray-400)] min-[976px]:text-[18px]">
+            Your hardware wallet and Visa card in one — private keys sealed
+            offline, tap to sign, spend anywhere.
           </p>
         </div>
 
-        {/* 3D card */}
-        <div className="absolute inset-0 z-[1] flex items-center justify-center">
+        {/* 3D card — flows in the middle on mobile (no overlap), full-screen for the desktop choreography */}
+        <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center lg:absolute lg:inset-0">
           <canvas
             ref={canvasRef}
             aria-hidden
-            className={`block h-full w-full transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+            className={`pointer-events-none block h-full w-full transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
           />
         </div>
 
         {/* Feature eyebrow, appears during feature phase */}
         <div
-          className={`pointer-events-none absolute left-1/2 top-16 z-[3] -translate-x-1/2 text-center transition-all duration-700 md:top-20 ${
+          className={`pointer-events-none absolute left-1/2 top-16 z-[3] -translate-x-1/2 text-center transition-all duration-1000 md:top-20 ${
             inFeatures ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
           }`}
         >
@@ -162,8 +164,8 @@ export function HeroSection() {
           {nodes.map((n, i) => (
             <g
               key={n.title}
-              className="transition-opacity duration-500"
-              style={{ opacity: reveal > i ? 1 : 0 }}
+              className="transition-opacity duration-[1000ms]"
+              style={{ opacity: reveal > i ? 1 : 0, transitionDelay: reveal > i ? `${i * 120}ms` : "0ms" }}
             >
               <line
                 x1={pivot.x}
@@ -195,13 +197,13 @@ export function HeroSection() {
           {nodes.map((n, i) => (
             <div
               key={n.title}
-              className="absolute w-[300px] rounded-2xl border border-[var(--border)] bg-white/85 px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.08)] backdrop-blur-md transition-all duration-500"
+              className="absolute w-[300px] rounded-2xl border border-[var(--border)] bg-white/85 px-5 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.08)] backdrop-blur-md transition-all duration-[900ms]"
               style={{
                 left: n.x + 12,
                 top: n.y,
                 transform: `translateY(-50%) scale(${reveal > i ? 1 : 0.9})`,
                 opacity: reveal > i ? 1 : 0,
-                transitionDelay: reveal > i ? `${i * 70}ms` : "0ms",
+                transitionDelay: reveal > i ? `${i * 140}ms` : "0ms",
               }}
             >
               <p className="text-[16px] font-medium text-[var(--fg)]">{n.title}</p>
@@ -210,13 +212,35 @@ export function HeroSection() {
           ))}
         </div>
 
-        {/* Mobile: stacked cards revealing bottom-up */}
-        <div className="pointer-events-none absolute inset-x-4 bottom-28 z-[3] flex flex-col gap-2.5 lg:hidden">
+        {/* Mobile: show only the active feature callout */}
+        <div className="absolute inset-x-4 bottom-24 z-[3] lg:hidden">
+          {inFeatures && (
+            <div className="mb-3 flex items-center justify-center gap-2">
+              {FEATURES.map((f, i) => (
+                <button
+                  key={f.title}
+                  type="button"
+                  onClick={() => scrollToFeature(i)}
+                  aria-label={`Show ${f.title}`}
+                  aria-current={reveal - 1 === i ? "true" : undefined}
+                  className={`min-h-[44px] flex-1 rounded-full px-2 py-2 text-[10px] font-medium leading-tight transition-colors sm:text-[11px] ${
+                    reveal - 1 === i
+                      ? "bg-[var(--brand)] text-white"
+                      : "border border-[var(--border)] bg-white/90 text-[var(--gray-400)]"
+                  }`}
+                >
+                  {f.title.split(" ")[0]}
+                </button>
+              ))}
+            </div>
+          )}
           {FEATURES.map((f, i) => (
             <div
               key={f.title}
-              className={`rounded-xl border border-[var(--border)] bg-white/90 px-4 py-3 shadow-md backdrop-blur-md transition-all duration-500 ${
-                reveal > i ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              className={`absolute inset-x-0 bottom-0 rounded-xl border border-[var(--border)] bg-white/95 px-4 py-3 shadow-md backdrop-blur-md transition-all duration-[900ms] ${
+                inFeatures && reveal - 1 === i
+                  ? "translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-3 opacity-0"
               }`}
             >
               <p className="text-[15px] font-medium text-[var(--fg)]">{f.title}</p>
@@ -227,12 +251,12 @@ export function HeroSection() {
 
         {/* CTA + trust + scroll cue — scroll away like the heading */}
         <div
-          className={`relative z-[3] mt-auto flex flex-col items-center gap-5 px-6 pb-8 transition-all duration-700 md:pb-12 ${
+          className={`relative z-[3] mt-auto flex shrink-0 flex-col items-center gap-3 px-6 pb-6 transition-all duration-1000 md:gap-5 md:pb-12 ${
             inFeatures ? "pointer-events-none translate-y-10 opacity-0" : "translate-y-0 opacity-100"
           }`}
         >
-          <div className="flex flex-col-reverse items-center justify-center gap-6 md:flex-row">
-            <div className="relative mx-8 flex flex-col items-center justify-center text-center text-[18px] font-medium leading-[131%] tracking-[-0.27px] text-[var(--fg)]">
+          <div className="flex flex-col-reverse items-center justify-center gap-4 md:flex-row md:gap-6">
+            <div className="relative mx-8 flex flex-col items-center justify-center text-center text-[16px] font-medium leading-[131%] tracking-[-0.27px] text-[var(--fg)] md:text-[18px]">
               <span aria-hidden className="absolute top-0 left-[-30px]">
                 <LaurelBranch />
               </span>
@@ -240,29 +264,29 @@ export function HeroSection() {
                 <LaurelBranch flip />
               </span>
               <span>EAL6+ certified secure element</span>
-              <span className="text-[14px] font-normal leading-[120%] tracking-[0.14px] text-[var(--gray-400)]">
+              <span className="text-[13px] font-normal leading-[120%] tracking-[0.14px] text-[var(--gray-400)] md:text-[14px]">
                 Built with Samsung Semiconductors
               </span>
             </div>
             <a
-              href="#technology"
-              className="inline-flex w-full max-w-[298px] cursor-pointer items-center justify-center gap-2 rounded-[14px] border-0 px-[26px] py-4 text-[20px] font-medium text-white no-underline transition-[transform,filter] duration-200 [background:linear-gradient(90deg,rgba(255,120,140,0)_0%,rgba(255,120,140,0.65)_100%),var(--brand)] hover:scale-[1.02] hover:brightness-105 md:mx-0 md:w-auto md:max-w-none md:px-[30px]"
+              {...APPLY_LINK_PROPS}
+              className="inline-flex w-full max-w-[298px] cursor-pointer items-center justify-center gap-2 rounded-[14px] border-0 px-[26px] py-3.5 text-[18px] font-medium text-white no-underline transition-[transform,filter] duration-200 [background:linear-gradient(90deg,rgba(255,120,140,0)_0%,rgba(255,120,140,0.65)_100%),var(--brand)] hover:scale-[1.02] hover:brightness-105 md:mx-0 md:w-auto md:max-w-none md:px-[30px] md:py-4 md:text-[20px]"
             >
-              Get started
+              {APPLY_LABEL}
             </a>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
             {TRUST_CHIPS.map(({ icon: Icon, label }) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-white/70 px-3 py-1.5 text-[12px] font-medium text-[var(--gray-400)] backdrop-blur-sm"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-white/70 px-3 py-1.5 text-[11px] font-medium text-[var(--gray-400)] backdrop-blur-sm md:text-[12px]"
               >
                 <Icon className="h-3.5 w-3.5 text-[var(--brand)]" />
                 {label}
               </span>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--gray-400)]">
+          <div className="hidden items-center gap-2 text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--gray-400)] sm:flex">
             Scroll to explore
             <ChevronDown className="h-4 w-4 animate-bounce" />
           </div>

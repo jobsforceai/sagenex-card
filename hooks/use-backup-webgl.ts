@@ -77,6 +77,21 @@ export function useBackupWebgl(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeStep, setActiveStep] = useState(0);
   const [ready, setReady] = useState(false);
+  const trackRefStable = useRef(trackRef);
+  const containerRefStable = useRef(containerRef);
+  trackRefStable.current = trackRef;
+  containerRefStable.current = containerRef;
+
+  const scrollToStep = (step: number) => {
+    const track = trackRefStable.current.current;
+    const container = containerRefStable.current.current;
+    if (!track) return;
+    const progress = step === 0 ? 0.05 : step === 1 ? 0.5 : 0.92;
+    const containerH = container?.offsetHeight ?? window.innerHeight;
+    const scrollable = track.offsetHeight - containerH;
+    const top = track.offsetTop + progress * scrollable;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const track = trackRef.current;
@@ -103,8 +118,8 @@ export function useBackupWebgl(
 
     const scene = createStudioScene();
     const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 40);
-    camera.position.set(0, 0.55, 6.4);
-    camera.lookAt(0, 0.2, 0);
+    camera.position.set(0, 0.45, 8.1);
+    camera.lookAt(0, 0.18, 0);
 
     let card: THREE.Group | null = null;
 
@@ -154,8 +169,11 @@ export function useBackupWebgl(
       }
 
       const breathe = Math.sin(performance.now() * 0.001) * 0.015;
-      camera.position.y = 0.55 + breathe;
+      camera.position.y = 0.45 + breathe;
       camera.position.x = Math.sin(performance.now() * 0.0004) * 0.08;
+      // Re-aim every frame so the idle sway can't tilt the framing and crop
+      // the card's top/bottom edges out of the stage.
+      camera.lookAt(0, 0.18, 0);
 
       renderer.render(scene, camera);
     };
@@ -193,5 +211,5 @@ export function useBackupWebgl(
     };
   }, [trackRef, containerRef, stageRef]);
 
-  return { canvasRef, activeStep, ready };
+  return { canvasRef, activeStep, ready, scrollToStep };
 }
