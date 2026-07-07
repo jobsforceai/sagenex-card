@@ -4,6 +4,7 @@ import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { SiteHeader } from "./site-header";
 import { HeroSection } from "./hero-section";
 import { HighlightsSection } from "./highlights-section";
+import { CardTypesSection } from "./card-types-section";
 import { BackupStorySection } from "./backup-story";
 import { ChipSection } from "./chip-section";
 import { WarrantySection } from "./warranty-section";
@@ -23,6 +24,7 @@ export function LandingPage() {
       <main>
         <HeroSection />
         <HighlightsSection />
+        <CardTypesSection />
         <BackupStorySection />
         <ChipSection />
         <WarrantySection />
