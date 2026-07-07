@@ -1,0 +1,29 @@
+components/landing/site-header.tsx
+  s_75382120e53bfd::t_0a7449a53b5d2e 100,104,114,123
+hooks/use-hero-card-scene.ts
+  s_75382120e53bfd::t_91ea423a1c7b57 37-40
+  s_75382120e53bfd::t_d495faaf970c27 202-204
+hooks/use-backup-webgl.ts
+  s_75382120e53bfd::t_c5d0001ead1c2a 82-83
+  s_75382120e53bfd::t_03c0fba83cc3eb 85-90
+components/landing/cookie-banner.tsx
+  s_75382120e53bfd::t_d5deb688406eb0 3,5-23,25-26,28,42-43
+components/landing/reviews-section.tsx
+  s_75382120e53bfd::t_56c60b0339fd67 62,77,116,138-139,153,157,165-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8fb73bee2847572c80bc9ad3a6bb3132d640f503",
+  "prompts": {},
+  "sessions": {
+    "s_75382120e53bfd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3d8e-abe1-7a73-8e8f-12085b9b26c7",
+        "model": "gpt-5.5"
+      },
+      "human_author": "jobsforceai <jobsforceai@gmail.com>"
+    }
+  }
+}
