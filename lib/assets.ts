@@ -1,0 +1,40 @@
+/** Brand media — local images + WebGL scenes. */
+export const ASSETS = {
+  cardHero: "/sagenex-card-global-pay.png",
+  cardProduct: "/sagenex-card-global-pay.png",
+  cardHand: "/sagenex-card-hand.png",
+  bento: {
+    ownership: "/bento-ownership-hand.png",
+    easy: "/bento-easy-light.png",
+    crypto: "/bento-crypto-light.png",
+    seedless: "/bento-seedless-light.png",
+    ready: "/bento-ready-pocket.png",
+    storage: "/bento-storage-app.png",
+  },
+  highlights: [
+    "/bento-ownership-hand.png",
+    "/bento-easy-light.png",
+    "/bento-seedless-light.png",
+    "/bento-ready-pocket.png",
+    "/bento-crypto-light.png",
+    "/bento-storage-app.png",
+  ],
+  securityPoster: "/certified-poster-light.png",
+  chipImage: "/security-chip-light.png",
+  warranty: "/warranty-durability-ip69k.png",
+  walletProduct: "/sagenex-card-global-pay.png",
+  appScreens: [
+    "/sagenex-card-hand.png",
+    "/sagenex-card-global-pay.png",
+    "/sagenex-card-hand.png",
+    "/sagenex-card-global-pay.png",
+    "/sagenex-card-hand.png",
+  ],
+  everything: {
+    staking: "/bento-crypto-light.png",
+    dapps: "/bento-easy-light.png",
+    alerts: "/bento-ready-light.png",
+    market: "/bento-crypto-light.png",
+    accounts: "/bento-seedless-light.png",
+  },
+} as const;
