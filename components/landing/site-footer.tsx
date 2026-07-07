@@ -54,7 +54,10 @@ export function SiteFooter() {
               <ul className="space-y-2">
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-sm hover:text-[var(--fg)]">
+                    <a
+                      href={link === "Blog" ? "/blog" : "#"}
+                      className="text-sm hover:text-[var(--fg)]"
+                    >
                       {link}
                     </a>
                   </li>

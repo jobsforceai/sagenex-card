@@ -70,14 +70,15 @@ export function createCardMesh(frontTexture: THREE.Texture) {
   const faceGeo = roundedFaceGeometry(CARD_WIDTH, CARD_HEIGHT, CARD_RADIUS);
   const faceZ = CARD_DEPTH / 2 + 0.016;
 
-  // Front artwork.
+  // Front artwork. Low metalness + dim env reflections keep the matte-black
+  // card face reading as a true deep black rather than a washed-out gray.
   const front = new THREE.Mesh(
     faceGeo,
     new THREE.MeshStandardMaterial({
       map: frontTexture,
-      metalness: 0.45,
-      roughness: 0.4,
-      envMapIntensity: 0.7,
+      metalness: 0.2,
+      roughness: 0.58,
+      envMapIntensity: 0.3,
     }),
   );
   front.position.z = faceZ;
@@ -146,14 +147,17 @@ export function createStudioScene() {
 
 /** Lights only — no background, fog, or floor. For the floating hero card. */
 export function createHeroLights(scene: THREE.Scene) {
-  const hemi = new THREE.HemisphereLight(0xffffff, 0xe8e4df, 0.95);
+  // Softer ambient so shadows stay rich and the black face doesn't flatten out.
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xe8e4df, 0.55);
   scene.add(hemi);
 
-  const key = new THREE.DirectionalLight(0xfff8f0, 1.5);
+  // Focused key light gives the gold detailing and metal edge a crisp highlight
+  // while leaving the black background dark.
+  const key = new THREE.DirectionalLight(0xfff8f0, 1.35);
   key.position.set(3, 6, 5);
   scene.add(key);
 
-  const fill = new THREE.DirectionalLight(0xffffff, 0.5);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.3);
   fill.position.set(-4, 2, 3);
   scene.add(fill);
 
@@ -162,7 +166,7 @@ export function createHeroLights(scene: THREE.Scene) {
   scene.add(rim);
 
   // Moving specular glint so the metallic edges catch light as the card turns.
-  const glint = new THREE.PointLight(0xffffff, 0.6, 30);
+  const glint = new THREE.PointLight(0xffffff, 0.5, 30);
   glint.position.set(0, 2, 6);
   scene.add(glint);
   return glint;

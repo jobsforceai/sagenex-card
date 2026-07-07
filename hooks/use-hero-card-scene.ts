@@ -59,14 +59,18 @@ export function useHeroCardScene(
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 0.92;
 
     const scene = new THREE.Scene();
     const glint = createHeroLights(scene);
 
     // Neutral studio environment → believable metallic reflections.
+    // Kept dim so the matte-black card face stays a true, deep black instead of
+    // picking up gray studio reflections.
     const pmrem = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = env;
+    scene.environmentIntensity = 0.55;
 
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
     camera.position.set(0, 0.1, 6.2);
@@ -132,7 +136,7 @@ export function useHeroCardScene(
 
         // Scroll target pose (what the card eases toward at the current scroll).
         const targetX = lerp(0, sideX, move);
-        const targetY = lerp(-0.22, 0.05, move) + Math.sin(t * 0.7) * 0.03;
+        const targetY = lerp(0.04, 0.28, move) + Math.sin(t * 0.7) * 0.03;
         const targetRotY = lerp(0, 0.42, move) + pointer.x * 0.14 + Math.sin(t * 0.5) * 0.03;
         const targetRotX = lerp(-0.06, -0.12, move) + pointer.y * 0.06;
         const targetScale = baseScale * lerp(1, 1.12, move);
