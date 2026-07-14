@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import sanitizeHtml from "sanitize-html";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import {
@@ -15,6 +16,20 @@ import {
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+const sanitizeBlogHtml = (html: string) =>
+  sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      a: ["href", "name", "target", "rel"],
+      img: ["src", "alt", "title", "width", "height", "loading"],
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      a: sanitizeHtml.simpleTransform("a", { rel: "noopener noreferrer" }),
+    },
+  });
 
 export async function generateStaticParams() {
   const blogs = await fetchPublishedBlogs();
@@ -44,6 +59,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const date = formatBlogDate(blog.publishedAt || blog.createdAt);
   const readTime = estimateReadMinutes(blog.content);
+  const contentHtml = sanitizeBlogHtml(blog.content);
 
   return (
     <>
@@ -119,7 +135,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
           <div
             className="blog-prose mt-10"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
         </article>
       </main>

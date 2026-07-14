@@ -186,6 +186,7 @@ export function useHeroCardScene(
       window.removeEventListener("pointermove", onPointerMove);
       resizeObserver.disconnect();
       pmrem.dispose();
+      env.dispose();
       renderer.dispose();
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {

@@ -21,27 +21,28 @@ type BlogResponse = { blog: Blog };
 const blogsUrl = () => `${getApiV1BaseUrl()}/blogs`;
 
 export async function fetchPublishedBlogs(): Promise<Blog[]> {
-  try {
-    const res = await fetch(blogsUrl(), { next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    const data = (await res.json()) as BlogsResponse;
-    return data.blogs ?? [];
-  } catch {
-    return [];
+  const url = blogsUrl();
+  if (!url.startsWith("http")) return [];
+  const res = await fetch(url, { next: { revalidate: 60 } });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch blogs: ${res.status}`);
   }
+  const data = (await res.json()) as BlogsResponse;
+  return data.blogs ?? [];
 }
 
 export async function fetchPublishedBlog(slug: string): Promise<Blog | null> {
-  try {
-    const res = await fetch(`${blogsUrl()}/${encodeURIComponent(slug)}`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as BlogResponse;
-    return data.blog ?? null;
-  } catch {
-    return null;
+  const url = blogsUrl();
+  if (!url.startsWith("http")) return null;
+  const res = await fetch(`${url}/${encodeURIComponent(slug)}`, {
+    next: { revalidate: 60 },
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    throw new Error(`Failed to fetch blog "${slug}": ${res.status}`);
   }
+  const data = (await res.json()) as BlogResponse;
+  return data.blog ?? null;
 }
 
 export function formatBlogDate(iso: string | null) {

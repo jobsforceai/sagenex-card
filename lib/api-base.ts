@@ -11,7 +11,7 @@ export const getBackendBaseUrl = (fallback = "") => {
   return rawBaseUrl ? stripApiSuffix(rawBaseUrl) : "";
 };
 
-export const getApiV1BaseUrl = (fallback = "https://sagenex-backend.onrender.com") => {
+export const getApiV1BaseUrl = (fallback = "") => {
   const backendBaseUrl = getBackendBaseUrl(fallback);
-  return backendBaseUrl ? `${backendBaseUrl}/api/v1` : `/api/v1`;
+  return backendBaseUrl ? `${backendBaseUrl}/api/v1` : "";
 };
