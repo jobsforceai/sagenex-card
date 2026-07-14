@@ -5,27 +5,27 @@ import { APPLY_LABEL, APPLY_LINK_PROPS } from "@/lib/links";
 
 const reviews = [
   {
-    user: "Claus Hein",
+    user: "Venkata Rao",
     text: "Purchasing the package was as smooth and trouble free as I could have hoped for. Very happy with this wallet.",
   },
   {
-    user: "Mark Karns",
+    user: "Srinivas Reddy",
     text: "I love the tap-to-sign security idea. Overall I'm very impressed especially with the number of podcasters recommending the card!",
   },
   {
-    user: "Carrie",
+    user: "Lakshmi Devi",
     text: "Happy Mother's Day. The best gift a mum could ever have is a Cold Wallet-safe and secure #BTC #Crypto",
   },
   {
-    user: "Matt",
+    user: "Raghavendra Naidu",
     text: "This is officially the coolest hardware wallet I own now",
   },
   {
-    user: "Priya N.",
+    user: "Anitha Kumari",
     text: "Setup took two minutes and tapping the card to sign feels way safer than typing a seed phrase into a screen. Sagenex nailed it.",
   },
   {
-    user: "Diego R.",
+    user: "Kiran Kumar",
     text: "Finally a cold wallet that fits in my actual wallet. No cables, no batteries, and my keys never touch the internet. Recommended.",
   },
 ];

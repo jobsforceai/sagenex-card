@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { SiteHeader } from "./site-header";
 import { HeroSection } from "./hero-section";
@@ -15,7 +16,7 @@ import { SiteFooter } from "./site-footer";
 import { CookieBanner } from "./cookie-banner";
 import { EmailPopup } from "./email-popup";
 
-export function LandingPage() {
+export function LandingPage({ blogsSection }: { blogsSection?: ReactNode }) {
   useSmoothScroll();
 
   return (
@@ -30,6 +31,7 @@ export function LandingPage() {
         <WarrantySection />
         <AiSection />
         <ReviewsSection />
+        {blogsSection}
         <FaqSection />
       </main>
       <SiteFooter />
